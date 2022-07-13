@@ -42,9 +42,9 @@ function orderAlphabetically(array) {
 
 // Exercise 5: Order by year, ascending
 function orderByYear(array) {
-  const sortByYear = [...array].sort((a, b) => a.year - b.year); /* [...array] realiza una copia del array original, así cumplimos con "should return a new array" */
+  const sortByYear = [...array].sort((a, b) => a.year - b.year);
 
-  const sortSameYear = sortByYear.sort((a, b) => {
+  const sortAlphabetically = sortByYear.sort((a, b) => {
     if (a.year === b.year) {
       if (a.title < b.title) {
         return -1;
@@ -56,8 +56,8 @@ function orderByYear(array) {
     }
   });
 
-  console.log("EXERCISE 5 ->", sortSameYear);
-  return sortSameYear;
+  console.log("EXERCISE 5 ->", sortAlphabetically);
+  return sortAlphabetically;
 }
 
 // Exercise 6: Calculate the average of the movies in a category
@@ -69,13 +69,47 @@ function moviesAverageByCategory(array, genre) {
 }
 
 // Exercise 7: Modify the duration of movies to minutes
-function hoursToMinutes() {
+function hoursToMinutes(array) {
+  // Es crea un nou array, itinerant pels valors de l'array rebut, utilitzant un bucle
+  // S'obté la duration de cada un d'aquests valor rebuts (en cada passada) (que en el primer cas seria: 
+  // duration: '2h 22min',)
+  // Utilitzant els mètodes més útils -per exemple split entre d'altres- (s'extrau en una variable el valor de l'hora (és a dir, en aquest cas 2) i en una altra variable: els minuts (en aquest cas 22))
+  // Es realitza l'operaciò (multiplicació les hores per 60 i sumant els minuts)
+  // El resultat d'aquesta operació modifica els valors del camp duration en el nou array (en cada pasada d'aquest bucle)
+  // Finalment, es retorna (amb return) el nou array amb les dades del camp duration modificades.
 
+  const durationToMinutes = array.map(movie => {
+    let getHours = parseInt(movie.duration.split(' ')[0]) * 60;
+    let getMinutes;
+    if (typeof movie.duration.split(' ')[1] === 'string') {
+      getMinutes = parseInt(movie.duration.split(' ')[1]);
+    } else {
+      getMinutes = 0;
+    }
+    array.duration = getHours + getMinutes;
+    return {...movie, duration: array.duration};
+  });
+  
+  console.log("EXERCISE 7 ->", durationToMinutes);
+  return durationToMinutes;
 }
 
 // Exercise 8: Get the best film of a year
-function bestFilmOfYear() {
+function bestFilmOfYear(array, year) {
+  // Els usuaris/àries necessiten saber quina pel·lícula és la millor de cada any. Per dur a terme aquesta funcionalitat, hauràs de crear una funció que accepti l'any, i retorni la millor pel·lícula d'aquest any.
+  // let filmsYear = array.filter(movie => movie.year === year);
+  // let getHigherScore = filmsYear.sort((a, b) => b.score - a.score);
+  // let showHigherScore = getHigherScore.slice(0,1)
+  // console.log("EXERCISE 8 ->", showHigherScore);
+  // return showHigherScore;
+
+  const getHigherScore = array
+    .filter(movie => movie.year)
+    .sort((a, b) => b.score - a.score)
+    .slice(0,1);
   
+  console.log("EXERCISE 8 ->", getHigherScore);
+  return getHigherScore;
 }
 
 // The following is required to make unit tests work.
